@@ -1,0 +1,35 @@
+
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000' # Cổng mà ứng dụng sẽ lắng nghe
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=123456
+      - DATABASE_NAME=w
+    depends_on:
+      - db
+    volumes:
+       - ./images:/usr/src/app/images
+      
+
+  db:
+    image: postgres
+    ports:
+      - '5432:5432' # Cổng mà PostgreSQL sẽ lắng nghe
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=pronunciation_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
